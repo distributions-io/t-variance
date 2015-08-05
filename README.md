@@ -6,13 +6,13 @@ Variance
 
 The [variance](https://en.wikipedia.org/wiki/variance) for a [Student t](https://en.wikipedia.org/wiki/Student t_distribution) random variable is
 
-<div class="equation" align="center" data-raw-text="\operatorname{}\left[ X \right] = " data-equation="eq:variance">
-	<img src="" alt="variance for a Student t distribution.">
+<div class="equation" align="center" data-raw-text="\operatorname{Var}\left( X \right) = \begin{cases} \frac{\nu}{\nu-2} &amp; \text{ for } \nu > 2 \\
+\infty &amp; \text{ for } 1 < \nu \le 2 \end{cases}" data-equation="eq:variance">
+	<img src="https://cdn.rawgit.com/distributions-io/t-variance/tree/448c295d679be500c0e43a2308c015aa19c9fb07" alt="Variance for a Student t distribution.">
 	<br>
 </div>
 
-where `v > 0` is the degrees of freedom.
-
+where `v > 0` is the degrees of freedom. For any `v < 1`, the variance is undefined. This module returns `NaN` in such a case.
 
 ## Installation
 
@@ -41,16 +41,16 @@ var matrix = require( 'dstructs-matrix' ),
 	i;
 
 out = variance( 2 );
-// returns ~Infinity
+// returns +Infinity
 
 v = [ 2, 4, 8, 16 ];
 out = variance( v );
 
-// returns [ ~Infinity, ~2.000, ~8.000, ~16.000 ]
+// returns [ +Infinity, 2, 8/6, 16/14 ]
 
 v = new Float32Array( v );
 out = variance( v );
-// returns Float64Array( [~Infinity,~2.000,~8.000,~16.000] )
+// returns Float64Array( [+Infinity,2,8/6,16/14] )
 
 v =  matrix( [ 2, 4, 8, 16 ], [2,2] );
 /*
@@ -60,8 +60,8 @@ v =  matrix( [ 2, 4, 8, 16 ], [2,2] );
 
 out = variance( v );
 /*
-	[ ~Infinity ~2.000,
-	  ~8.000 ~16.000 ]
+	[ +Infinity 2
+	  8/6 16/14 ]
 */
 ```
 
@@ -90,7 +90,7 @@ function getValue( d, i ) {
 var out = variance( v, {
 	'accessor': getValue
 });
-// returns [ ~Infinity, ~2.000, ~8.000, ~16.000 ]
+// returns [ +Infinity, 2, 8/6, 16/14 ]
 ```
 
 To [deepset](https://github.com/kgryte/utils-deep-set) an object `array`, provide a key path and, optionally, a key path separator.
@@ -106,10 +106,10 @@ var v = [
 var out = variance( v, 'x|1', '|' );
 /*
 	[
-		{'x':[9,~Infinity]},
-		{'x':[9,~2.000]},
-		{'x':[9,~8.000]},
-		{'x':[9,~16.000]},
+		{'x':[9,+Infinity]},
+		{'x':[9,2]},
+		{'x':[9,8/6]},
+		{'x':[9,16/14]},
 	]
 */
 
@@ -127,13 +127,13 @@ v = new Float64Array( [ 2,4,8,16 ] );
 out = variance( v, {
 	'dtype': 'int32'
 });
-// returns Int32Array( [ Infinity,2,8,16 ] )
+// returns Int32Array( [Infinity,2,1,1] )
 
 // Works for plain arrays, as well...
 out = variance( [2,4,8,16], {
 	'dtype': 'int32'
 });
-// returns Int32Array( [ Infinity,2,8,16 ] )
+// returns Int32Array( [Infinity,2,1,1] )
 ```
 
 By default, the function returns a new data structure. To mutate the input data structure (e.g., when input values can be discarded or when optimizing memory usage), set the `copy` option to `false`.
@@ -150,7 +150,7 @@ v = [ 2, 4, 8, 16 ];
 out = variance( v, {
 	'copy': false
 });
-// returns [ ~Infinity, ~2.000, ~8.000, ~16.000 ]
+// returns [ +Infinity, 2, 8/6, 16/14 ]
 
 bool = ( data === out );
 // returns true
@@ -165,8 +165,8 @@ out = variance( mat, {
 	'copy': false
 });
 /*
-	[ ~Infinity ~2.000,
-	  ~8.000 ~16.000 ]
+	[ +Infinity 2
+	  8/6 16/14 ]
 */
 
 bool = ( mat === out );
@@ -252,7 +252,7 @@ var v,
 // Plain arrays...
 v = new Array( 10 );
 for ( i = 0; i < v.length; i++ ) {
-	v[ i ] = i;
+	v[ i ] = i + 1;
 }
 out = variance( v );
 
@@ -283,7 +283,7 @@ out = variance( v, {
 // Typed arrays...
 v = new Float64Array( 10 );
 for ( i = 0; i < v.length; i++ ) {
-	v[ i ] = i;
+	v[ i ] = i + 1;
 }
 out = variance( v );
 
