@@ -8,7 +8,7 @@ The [variance](https://en.wikipedia.org/wiki/variance) for a [Student t](https:/
 
 <div class="equation" align="center" data-raw-text="\operatorname{Var}\left( X \right) = \begin{cases} \frac{\nu}{\nu-2} &amp; \text{ for } \nu > 2 \\
 \infty &amp; \text{ for } 1 < \nu \le 2 \end{cases}" data-equation="eq:variance">
-	<img src="https://cdn.rawgit.com/distributions-io/t-variance/tree/448c295d679be500c0e43a2308c015aa19c9fb07" alt="Variance for a Student t distribution.">
+	<img src="https://cdn.rawgit.com/distributions-io/t-variance/e2e408038a0b11afea9c735949f99b02a649c3aa/docs/img/eqn.svg" alt="Variance for a Student t distribution.">
 	<br>
 </div>
 
